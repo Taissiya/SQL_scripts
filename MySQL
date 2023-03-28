@@ -1,0 +1,117 @@
+CREATE TABLE EMPLOYEE (
+  employee_id SMALLINT NOT NULL PRIMARY KEY,
+  last_name VARCHAR(15),
+  first_name VARCHAR(15),
+  middle_initial VARCHAR(1),
+  manager_id SMALLINT,
+  job_id SMALLINT,
+  hire_date DATETIME,
+  salary NUMERIC(7,2),
+  commission NUMERIC(7,2),
+  department_id SMALLINT  );
+
+CREATE TABLE DEPARTMENT (
+  department_id SMALLINT NOT NULL PRIMARY KEY,
+  name VARCHAR(14),
+  location_id SMALLINT );
+
+
+CREATE TABLE LOCATION (
+  location_id SMALLINT NOT NULL PRIMARY KEY,
+  regional_group VARCHAR(20) );
+
+CREATE TABLE JOB  (
+  job_id SMALLINT NOT NULL PRIMARY KEY,
+  "function" VARCHAR(30) );
+
+CREATE TABLE CUSTOMER (
+  customer_id INTEGER NOT NULL PRIMARY KEY,
+  name VARCHAR(45),
+  address VARCHAR(40),
+  city VARCHAR(30),
+  state VARCHAR(2),
+  zip_code VARCHAR(9),
+  area_code SMALLINT,
+  phone_number INTEGER,
+  salesperson_id SMALLINT,
+  credit_limit NUMERIC(9,2), 
+  comments VARCHAR(500) );
+
+CREATE TABLE SALES_ORDER (
+  order_id SMALLINT NOT NULL PRIMARY KEY,
+  order_date DATETIME,
+  customer_id INTEGER,
+  ship_date DATETIME,
+  total NUMERIC(8,2) );
+
+CREATE TABLE ITEM (
+  order_id SMALLINT NOT NULL,
+  item_id SMALLINT NOT NULL,
+  product_id INTEGER,
+  actual_price NUMERIC(8,2),
+  quantity INTEGER,
+  total NUMERIC(8,2),
+PRIMARY KEY (order_id,item_id)
+);
+
+CREATE TABLE PRODUCT (
+  product_id INTEGER NOT NULL PRIMARY KEY,
+  description VARCHAR(30) );
+
+CREATE TABLE PRICE (
+  product_id INTEGER NOT NULL,
+  list_price NUMERIC(8,2),
+  min_price NUMERIC(8,2),
+  start_date DATETIME NOT NULL,
+  end_date DATETIME,
+  PRIMARY KEY (product_id,start_date)
+);
+
+
+
+INSERT INTO sales_order VALUES(537,'14/06/1990',204,'26/06/1990',672.9);
+INSERT INTO sales_order VALUES(522,'07/01/1990',204,'10/01/1990',2578.8);
+INSERT INTO sales_order VALUES(554,'18/02/1991',204,'22/02/1991',282.8);
+INSERT INTO sales_order VALUES(569,'16/07/1991',205,'23/07/1991',2073);
+INSERT INTO sales_order VALUES(550,'27/01/1991',205,'07/02/1991',2356);
+INSERT INTO sales_order VALUES(548,'26/11/1990',205,'12/12/1990',666.9);
+INSERT INTO sales_order VALUES(505,'07/04/1989',206,'22/04/1989',650);
+INSERT INTO sales_order VALUES(577,'06/10/1991',206,'20/10/1991',1265.75);
+INSERT INTO sales_order VALUES(533,'28/04/1990',206,'02/05/1990',1122.1);
+INSERT INTO sales_order VALUES(561,'20/04/1991',207,'07/05/1991',2558.3);
+INSERT INTO sales_order VALUES(506,'27/04/1989',208,'10/05/1989',2600.4);
+INSERT INTO sales_order VALUES(530,'03/04/1990',208,'07/04/1990',3026.5);
+INSERT INTO sales_order VALUES(545,'06/10/1990',208,'13/10/1990',475);
+INSERT INTO sales_order VALUES(557,'08/03/1991',208,'12/03/1991',2461.8);
+INSERT INTO sales_order VALUES(546,'17/10/1990',208,'23/10/1990',3663);
+INSERT INTO sales_order VALUES(510,'18/07/1989',208,'21/07/1989',1336.6);
+
+ALTER TABLE PRICE ADD 
+	FOREIGN KEY (Product_id) 
+	REFERENCES Product (Product_id)
+
+ALTER TABLE ITEM ADD
+	FOREIGN KEY (Product_id)
+	REFERENCES Product (Product_id),
+	FOREIGN KEY (Order_id)
+	REFERENCES Sales_Order (Order_id)
+
+ALTER TABLE SALES_ORDER ADD
+	FOREIGN KEY (Customer_id)
+	REFERENCES Customer(Customer_id)
+
+ALTER TABLE CUSTOMER ADD
+	FOREIGN KEY (Salesperson_id)
+	REFERENCES Employee(Employee_id)
+
+ALTER TABLE Employee ADD
+	FOREIGN KEY (Manager_id)
+	REFERENCES Employee(Employee_id), 
+	FOREIGN KEY (Job_id)
+	REFERENCES Job(Job_id),
+	FOREIGN KEY (Department_id)
+	REFERENCES Department(Department_id)
+
+ALTER TABLE Department ADD
+	FOREIGN KEY (Location_id)
+	REFERENCES Location(Location_id)
