@@ -1,4 +1,7 @@
-set DATEFORMAT dmy
+--проверка формата даты
+show datestyle;
+-- изменение формата даты
+SET datestyle = "ISO, DMY";
 
 CREATE TABLE EMPLOYEE (
   employee_id SMALLINT NOT NULL PRIMARY KEY,
